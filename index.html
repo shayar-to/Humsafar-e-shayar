@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Humsafar-e-Shayar · ہمسفر شاعر</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cinzel:wght@400;500&family=Noto+Nastaliq+Urdu:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0a0608;--deep:#110d0f;--mid:#1e1418;
+  --rose:#8b2a3c;--rose2:#c4485e;
+  --gold:#d4a853;--gold2:#f0cc7a;
+  --cream:#f5ede0;--fog:#c8b8a8;--dim:#7a6a5a;
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font-family:'EB Garamond',serif;font-size:18px;overflow-x:hidden}
+
+#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.7}
+.ambient{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 50% 40% at 20% 30%,rgba(139,42,60,.12) 0%,transparent 70%),
+             radial-gradient(ellipse 40% 50% at 80% 70%,rgba(212,168,83,.07) 0%,transparent 70%);
+  animation:ambientShift 12s ease-in-out infinite alternate}
+@keyframes ambientShift{0%{opacity:.7}100%{opacity:1}}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:500;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity 1.2s,visibility 1.2s}
+#splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+.splash-urdu{font-family:'Noto Nastaliq Urdu',serif;font-size:clamp(1.5rem,5vw,3rem);color:var(--gold2);direction:rtl;opacity:0;animation:fadeIn 1.2s .3s forwards}
+.splash-en{font-style:italic;font-size:clamp(.9rem,2vw,1.3rem);color:var(--fog);letter-spacing:.2em;opacity:0;animation:fadeIn 1.2s .8s forwards}
+.splash-line{width:0;height:1px;background:var(--gold);animation:lineGrow 1.5s 1.5s forwards;margin:.5rem 0}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes lineGrow{to{width:200px}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 4rem;transition:background .5s}
+nav.scrolled{background:rgba(10,6,8,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,168,83,.12)}
+.nav-logo{font-family:'Cinzel',serif;font-size:1.1rem;letter-spacing:.12em;color:var(--gold2);text-decoration:none}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--dim);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:var(--gold2)}
+.admin-btn{padding:.4rem 1.2rem;border:1px solid rgba(212,168,83,.3);color:var(--gold) !important;font-size:.65rem !important;transition:all .3s !important}
+.admin-btn:hover{background:rgba(212,168,83,.1) !important}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:8rem 2rem 4rem;position:relative;z-index:10}
+.hero-eyebrow{font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--rose2);margin-bottom:2rem;opacity:0;animation:riseUp .8s 2.8s forwards}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(2.8rem,8vw,7rem);font-weight:400;line-height:1;letter-spacing:.06em;color:var(--cream);opacity:0;animation:riseUp .9s 3s forwards;margin-bottom:.4rem}
+.hero-title em{font-style:italic;font-family:'EB Garamond',serif;color:var(--gold2);font-size:1.15em;display:block}
+.hero-urdu{font-family:'Noto Nastaliq Urdu',serif;font-size:clamp(1.4rem,4vw,2.5rem);color:rgba(212,168,83,.6);direction:rtl;margin:1rem 0 2.5rem;opacity:0;animation:riseUp .9s 3.2s forwards}
+.typewriter-wrap{height:2.5rem;overflow:hidden;margin-bottom:3rem;opacity:0;animation:riseUp .9s 3.4s forwards}
+.typewriter{font-style:italic;font-size:1.15rem;color:var(--fog);border-right:2px solid var(--gold);white-space:nowrap;overflow:hidden}
+.scroll-hint{opacity:0;animation:riseUp .9s 3.8s forwards;display:flex;flex-direction:column;align-items:center;gap:.6rem;color:var(--dim);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}
+.scroll-arrow{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes riseUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:1.5rem;max-width:700px;margin:0 auto;padding:0 2rem}
+.divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(212,168,83,.3),transparent)}
+.divider-sym{color:var(--gold);font-size:1.2rem;opacity:.7}
+
+/* INTRO */
+.intro-verse{position:relative;z-index:10;padding:6rem 2rem;text-align:center}
+.intro-verse blockquote{font-size:clamp(1.3rem,3vw,2rem);font-style:italic;line-height:1.8;max-width:650px;margin:2rem auto;color:var(--cream)}
+.intro-verse .urdu-q{font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:clamp(1.1rem,2.5vw,1.7rem);color:rgba(240,204,122,.75);display:block;margin-bottom:1rem;line-height:2.2}
+.intro-verse cite{font-style:normal;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rose2)}
+
+/* SHAYARI SECTION */
+.shayari-section{position:relative;z-index:10;padding:4rem 2rem 6rem;max-width:1200px;margin:0 auto}
+.sec-title{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:.5rem}
+.sec-sub{text-align:center;font-style:italic;color:var(--dim);font-size:.9rem;margin-bottom:2.5rem}
+
+/* FILTER BAR */
+.filter-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-bottom:3rem}
+.fbtn{padding:.4rem 1.2rem;border:1px solid rgba(212,168,83,.15);color:var(--dim);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;background:none;cursor:pointer;transition:all .3s;font-family:'EB Garamond',serif}
+.fbtn:hover,.fbtn.active{border-color:var(--gold);color:var(--gold2);background:rgba(212,168,83,.06)}
+
+/* CARDS */
+.cards-grid{columns:1;gap:1.8rem}
+@media(min-width:640px){.cards-grid{columns:2}}
+@media(min-width:1024px){.cards-grid{columns:3}}
+
+.scard{
+  break-inside:avoid;
+  background:linear-gradient(135deg,rgba(30,20,24,.9),rgba(17,13,15,.95));
+  border:1px solid rgba(212,168,83,.1);
+  padding:2.2rem 1.8rem;margin-bottom:1.8rem;
+  position:relative;overflow:hidden;
+  transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .4s,box-shadow .5s;
+  opacity:0;transform:translateY(30px);
+  animation:cardIn .6s forwards;
+}
+@keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+.scard::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at var(--mx,50%) var(--my,50%),rgba(212,168,83,.06) 0%,transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none}
+.scard:hover::before{opacity:1}
+.scard::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--rose),var(--gold));transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.scard:hover::after{transform:scaleY(1)}
+.scard:hover{transform:translateY(-6px) scale(1.01);border-color:rgba(212,168,83,.25);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 30px rgba(139,42,60,.15)}
+.scard-tag{font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--rose2);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem}
+.scard-tag::after{content:'';flex:1;height:1px;background:rgba(139,42,60,.3)}
+.scard-urdu{font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:1.1rem;line-height:2.3;color:rgba(245,237,224,.85);margin-bottom:1rem}
+.scard-en{font-style:italic;font-size:.95rem;line-height:1.85;color:var(--fog);margin-bottom:1.5rem;padding-left:1rem;border-left:1px solid rgba(212,168,83,.2)}
+.scard-author{font-size:.72rem;letter-spacing:.12em;color:var(--dim)}
+.scard-author span{color:var(--gold2)}
+.scard-heart{position:absolute;top:1.2rem;right:1.2rem;background:none;border:none;cursor:pointer;color:var(--dim);font-size:1rem;transition:color .3s,transform .3s}
+.scard-heart:hover,.scard-heart.liked{color:var(--rose2);transform:scale(1.3)}
+.empty-state{text-align:center;padding:5rem 2rem;color:var(--dim);font-style:italic;column-span:all}
+.empty-state .big{font-size:3rem;margin-bottom:1rem;opacity:.3}
+
+/* IMMERSIVE */
+.immersive{position:relative;z-index:10;padding:8rem 2rem;text-align:center;overflow:hidden}
+.immersive-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(139,42,60,.2) 0%,transparent 70%);animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.immersive-line{font-family:'Cinzel',serif;font-size:clamp(1.5rem,5vw,4rem);line-height:1.4;max-width:900px;margin:0 auto;color:var(--cream)}
+.immersive-line .hl{color:var(--gold2);font-style:italic;font-family:'EB Garamond',serif;font-size:1.2em}
+.immersive-urdu{font-family:'Noto Nastaliq Urdu',serif;direction:rtl;font-size:clamp(1.2rem,3vw,2rem);color:rgba(212,168,83,.5);margin-top:1.5rem;display:block}
+
+/* GENRES */
+.cat-section{position:relative;z-index:10;padding:5rem 2rem;max-width:900px;margin:0 auto;text-align:center}
+.cat-cloud{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:2.5rem}
+.cat-tag{padding:.55rem 1.5rem;border:1px solid rgba(212,168,83,.2);color:var(--dim);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;text-decoration:none;background:transparent}
+.cat-tag::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--rose),var(--gold));transform:translateX(-100%);transition:transform .4s;z-index:-1}
+.cat-tag:hover::before,.cat-tag.active::before{transform:translateX(0)}
+.cat-tag:hover,.cat-tag.active{color:var(--cream);border-color:transparent}
+
+/* PETALS */
+.petal{position:fixed;pointer-events:none;z-index:5;border-radius:50% 0 50% 0;background:radial-gradient(ellipse,rgba(196,72,94,.6) 0%,transparent 80%);animation:fall linear infinite;opacity:0}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:0}10%{opacity:.7}90%{opacity:.3}100%{transform:translateY(100vh) rotate(540deg) translateX(30px);opacity:0}}
+
+/* FOOTER */
+footer{position:relative;z-index:10;border-top:1px solid rgba(212,168,83,.1);padding:3rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.footer-brand{font-family:'Cinzel',serif;letter-spacing:.12em;color:var(--gold2);font-size:.9rem}
+.footer-copy{font-size:.72rem;color:var(--dim)}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{color:var(--dim);text-decoration:none;font-size:.72rem;transition:color .3s}
+.footer-links a:hover{color:var(--gold2)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links{gap:1rem}
+  footer{padding:2rem 1.5rem;flex-direction:column;text-align:center}
+  .footer-links{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+<div class="ambient"></div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <p class="splash-urdu">ہمسفر شاعر</p>
+  <div class="splash-line"></div>
+  <p class="splash-en">A companion in poetry</p>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Humsafar-e-Shayar</a>
+  <div class="nav-links">
+    <a href="#shayari">Verses</a>
+    <a href="#genres">Genres</a>
+    <a href="humsafar-admin.html" class="admin-btn">⚙ Admin</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Where the heart speaks in silence</p>
+  <h1 class="hero-title">Humsafar-e-<em>Shayar</em></h1>
+  <p class="hero-urdu">ہمسفر شاعر</p>
+  <div class="typewriter-wrap"><p class="typewriter" id="tw"></p></div>
+  <div class="scroll-hint">
+    <span>Scroll to wander</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<div class="divider reveal"><div class="divider-line"></div><div class="divider-sym">✦</div><div class="divider-line"></div></div>
+
+<section class="intro-verse reveal">
+  <blockquote>
+    <span class="urdu-q">دل کی گہرائیوں میں جو درد چھپا ہے<br>وہی درد شعر بن کر باہر آتا ہے</span>
+    The pain buried deep within the heart —<br>that very pain emerges, transformed as poetry.
+  </blockquote>
+  <cite>— The Poet's Ancient Truth</cite>
+</section>
+
+<div class="divider reveal"><div class="divider-line"></div><div class="divider-sym">✦</div><div class="divider-line"></div></div>
+
+<!-- SHAYARI -->
+<section class="shayari-section" id="shayari">
+  <p class="sec-title reveal">Verses</p>
+  <p class="sec-sub reveal" id="verseCount">Loading...</p>
+  <div class="filter-bar reveal" id="filterBar"></div>
+  <div class="cards-grid" id="cardsGrid"></div>
+</section>
+
+<!-- IMMERSIVE -->
+<div class="immersive reveal">
+  <div class="immersive-bg"></div>
+  <p class="immersive-line">Shayari is not written —<br>it is <span class="hl">breathed out</span><br>by a heart too full to stay silent.</p>
+  <span class="immersive-urdu">شاعری لکھی نہیں جاتی، دل سے نکلتی ہے</span>
+</div>
+
+<!-- GENRES -->
+<section class="cat-section" id="genres">
+  <p class="sec-title reveal">Explore the Moods</p>
+  <p class="sec-sub reveal">Every feeling has a genre of its own</p>
+  <div class="cat-cloud reveal" id="catCloud"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">Humsafar-e-Shayar</span>
+  <span class="footer-copy">© 2025 · A companion in words</span>
+  <div class="footer-links">
+    <a href="humsafar-admin.html">Admin</a>
+    <a href="#">About</a>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+//  DEFAULT SHAYARI — always shown on first load
+// ══════════════════════════════════════════
+const DEFAULTS = [
+  {id:'d1',tag:'Ishq · Love',
+   urdu:'تم سے ملنے کی خواہش میں جی رہا ہوں\nتمہیں بھول جانے کی کوشش میں جی رہا ہوں',
+   en:'In the longing to meet you, I live on,\nIn the effort to forget you, I carry on.',
+   author:'Mirza Ghalib'},
+  {id:'d2',tag:'Dard · Grief',
+   urdu:'دل ڈھونڈتا ہے پھر وہی فرصت کے رات دن\nبیٹھے رہیں تصور جاناں کیے ہوئے',
+   en:'My heart seeks again those leisured nights and days,\nTo sit and lose itself in her remembered gaze.',
+   author:'Mirza Ghalib'},
+  {id:'d3',tag:'Judaai · Separation',
+   urdu:'تیرے جانے کے بعد اتنا سکوت ہے گھر میں\nجیسے کوئی خواب تھا جو ٹوٹ گیا ہو',
+   en:'After you left, such silence fills this home —\nas if a dream had shattered, leaving me alone.',
+   author:'Faiz Ahmed Faiz'},
+  {id:'d4',tag:'Zindagi · Life',
+   urdu:'ہزاروں خواہشیں ایسی کہ ہر خواہش پہ دم نکلے\nبہت نکلے مرے ارمان لیکن پھر بھی کم نکلے',
+   en:'A thousand desires — each one worth dying for.\nMany were fulfilled, yet longing asked for more.',
+   author:'Mirza Ghalib'},
+  {id:'d5',tag:'Sufi · Soul',
+   urdu:'ہر ذرے میں تیری جھلک نظر آتی ہے\nیہ کائنات تیری محبت کا آئینہ ہے',
+   en:'In every particle, your reflection appears —\nthis universe is a mirror of your love.',
+   author:'Rumi (tr.)'},
+  {id:'d6',tag:'Ghazal',
+   urdu:'آہ کو چاہیے اک عمر اثر ہونے تک\nکون جیتا ہے تری زلف کے سر ہونے تک',
+   en:'A sigh needs a lifetime to take effect —\nwho lives long enough to see your veil swept back?',
+   author:'Mirza Ghalib'},
+  {id:'d7',tag:'Raat · Night',
+   urdu:'رات بھر روتا رہا میں تنہا\nصبح آئی تو آنسو چھپا لیے',
+   en:'All night I wept alone in the dark —\nwhen morning came, I hid every mark.',
+   author:'Anonymous'},
+  {id:'d8',tag:'Umeed · Hope',
+   urdu:'اندھیرے میں بھی چراغ ہوں میں\nجلتا رہوں گا تیری یاد میں',
+   en:'Even in darkness, I remain a flame,\nburning endlessly in your memory\'s name.',
+   author:'Anonymous'},
+  {id:'d9',tag:'Watan · Homeland',
+   urdu:'سارے جہاں سے اچھا ہندوستاں ہمارا\nہم بلبلیں ہیں اس کی یہ گلستاں ہمارا',
+   en:'Better than the whole world is our homeland,\nwe are its nightingales — this garden is ours.',
+   author:'Allama Iqbal'},
+];
+
+// ══════════════════════════════════════════
+//  STORAGE — localStorage with safe fallback
+// ══════════════════════════════════════════
+function getShayari() {
+  try {
+    const raw = localStorage.getItem('hs_shayari');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch(e) {}
+  return DEFAULTS;
+}
+
+// ══════════════════════════════════════════
+//  RENDER CARDS
+// ══════════════════════════════════════════
+let allShayari = [];
+let activeTag = 'All';
+
+function renderCards(data) {
+  const grid = document.getElementById('cardsGrid');
+  document.getElementById('verseCount').textContent =
+    activeTag === 'All' ? `${data.length} verses` : `Showing: ${activeTag} · ${data.length} verses`;
+
+  if (!data.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="big">✦</div>
+      <p>No verses in this category yet.<br>
+      <a href="humsafar-admin.html" style="color:var(--gold)">Add your shayari in Admin →</a></p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = data.map((s, i) => `
+    <div class="scard" style="animation-delay:${i * 80}ms">
+      <p class="scard-tag">${s.tag}</p>
+      <button class="scard-heart" onclick="this.classList.toggle('liked')">♡</button>
+      <p class="scard-urdu">${(s.urdu||'').replace(/\n/g,'<br>')}</p>
+      ${s.en ? `<p class="scard-en">${s.en.replace(/\n/g,'<br>')}</p>` : ''}
+      <p class="scard-author">— <span>${s.author || 'Anonymous'}</span></p>
+    </div>
+  `).join('');
+
+  // Mouse glow effect
+  grid.querySelectorAll('.scard').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+      card.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+    });
+  });
+}
+
+function renderFilters() {
+  const tags = ['All', ...new Set(allShayari.map(s => s.tag))];
+
+  // Filter bar
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = tags.map(t =>
+    `<button class="fbtn${t===activeTag?' active':''}" onclick="filterBy('${t}')">${t}</button>`
+  ).join('');
+
+  // Genre cloud
+  const cloud = document.getElementById('catCloud');
+  cloud.innerHTML = tags.map(t =>
+    `<a href="#shayari" class="cat-tag${t===activeTag?' active':''}" onclick="filterBy('${t}');return false">${t}</a>`
+  ).join('');
+}
+
+function filterBy(tag) {
+  activeTag = tag;
+  renderFilters();
+  const filtered = tag === 'All' ? allShayari : allShayari.filter(s => s.tag === tag);
+  renderCards(filtered);
+  document.getElementById('shayari').scrollIntoView({behavior:'smooth'});
+}
+
+function init() {
+  allShayari = getShayari();
+  renderCards(allShayari);
+  renderFilters();
+}
+
+// Run on DOM ready
+document.addEventListener('DOMContentLoaded', init);
+
+// ══════════════════════════════════════════
+//  STARFIELD
+// ══════════════════════════════════════════
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 220; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + .2,
+      o: Math.random() * .8 + .1,
+      s: Math.random() * .3 + .05,
+      t: Math.random() * Math.PI * 2
+    });
+  }
+}
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.t += s.s * .05;
+    const op = s.o * (.5 + .5 * Math.sin(s.t));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(245,237,224,${op})`;
+    ctx.fill();
+    if (s.r > 1.1) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r * 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(212,168,83,${op*.4})`;
+      ctx.fill();
+    }
+  });
+  requestAnimationFrame(drawStars);
+}
+resizeCanvas(); initStars(); drawStars();
+window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
+
+// ══════════════════════════════════════════
+//  FLOATING PETALS
+// ══════════════════════════════════════════
+for (let i = 0; i < 16; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.style.cssText = `
+    left:${Math.random()*100}vw;
+    top:${Math.random()*100}vh;
+    animation-duration:${Math.random()*15+10}s;
+    animation-delay:${Math.random()*15}s;
+    width:${Math.random()*4+4}px;
+    height:${Math.random()*6+6}px;
+  `;
+  document.body.appendChild(p);
+}
+
+// ══════════════════════════════════════════
+//  TYPEWRITER
+// ══════════════════════════════════════════
+const phrases = [
+  'Where words become wounds that heal...',
+  'کہاں جاتے ہو اے دل، یہیں رہو...',
+  'Every tear knows a verse by heart...',
+  'درد کا حق ادا کر رہا ہوں...',
+  'In silence, the shayar speaks loudest.',
+];
+let pi = 0, ci = 0, deleting = false;
+const twEl = document.getElementById('tw');
+function type() {
+  const ph = phrases[pi];
+  if (!deleting) {
+    twEl.textContent = ph.substring(0, ci + 1);
+    ci++;
+    if (ci === ph.length) { deleting = true; setTimeout(type, 2200); return; }
+  } else {
+    twEl.textContent = ph.substring(0, ci - 1);
+    ci--;
+    if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
+  }
+  setTimeout(type, deleting ? 40 : 75);
+}
+setTimeout(type, 4000);
+
+// ══════════════════════════════════════════
+//  NAV SCROLL
+// ══════════════════════════════════════════
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  document.querySelector('.hero').style.transform = `translateY(${window.scrollY * .3}px)`;
+});
+
+// ══════════════════════════════════════════
+//  SCROLL REVEAL
+// ══════════════════════════════════════════
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+// ══════════════════════════════════════════
+//  SPLASH
+// ══════════════════════════════════════════
+setTimeout(() => document.getElementById('splash').classList.add('gone'), 3000);
+</script>
+</body>
+</html>
